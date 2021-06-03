@@ -30,7 +30,7 @@ Git commit email
 
 ### `commiter_name`
 
-Git commit user name
+[Optional] Git commit user name. Default is 'github-actions[bot]'
 
 ### `commit_message`
 
@@ -47,5 +47,16 @@ Base branch
 ## Example usage
 
 ```yml
-
+- name: Open pull request
+  uses: nomyfan/open-gh-pr@v1.0.0 # use latest version
+  with:
+    api_token: ${{ secrets.API_TOKEN_GITHUB }}
+    src_dir: dist
+    dest_dir: dist
+    repo: test-open-gh-pr
+    owner: nomyfan
+    commiter_email: ${{ secrets.EMAIL }}
+    commiter_name: ${{ secrets.USER_NAME }}
+    head_branch: ${{ env.HEAD_BRANCH }}
+    base_branch: main
 ```

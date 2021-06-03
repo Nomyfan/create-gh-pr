@@ -5,6 +5,14 @@ import { $, cd } from "zx";
 
 const println = (msg) => console.log(chalk.blue(msg));
 const eprintln = (msg) => console.log(chalk.red(msg));
+const $s = async (...ps) => {
+  const prev = $.verbose;
+  $.verbose = false;
+  const p = await $(ps);
+  $.verbose = prev;
+
+  return p;
+};
 
 function precheck() {
   const exit = (msg) => {
@@ -84,28 +92,34 @@ async function configGit({ email, userName }) {
 
 /**
  *
- * @param param0 {{apiToken: string, owner: string, repo: string, baseBranch: string}}
+ * @param param0 {{apiToken: string, owner: string, repo: string}}
  * @returns
  */
-async function clone({ apiToken, owner, repo, baseBranch }) {
+async function clone({ apiToken, owner, repo }) {
   const uri = `https://${apiToken}@github.com/${owner}/${repo}.git`;
   const cloneDir = (await $`mktemp -d`).stdout;
-  await $`git clone ${uri} ${cloneDir} && git checkout ${baseBranch}`;
+  await $`git clone ${uri} ${cloneDir}`;
 
   return cloneDir;
 }
 
 /**
  *
- * @param param0 {{cloneDir: string, srcDir: string, destDri: string}}
+ * @param param0 {{cloneDir: string, srcDir: string, destDir: string, baseBranch: string}}
  */
-async function copy({ cloneDir, srcDir, destDir }) {
+async function copy({ cloneDir, srcDir, destDir, baseBranch }) {
+  const workspace = process.env.GITHUB_WORKSPACE;
+  // const workspace = (await $`pwd`).stdout;
+
   const destFullDir = `${cloneDir}/${destDir}`;
   await io.mkdirP(destFullDir);
-  await io.cp(`${srcDir}/*`, destFullDir, {
-    recursive: true,
-    force: true,
-  });
+
+  cd(cloneDir);
+
+  await $`git checkout ${baseBranch}`;
+
+  const fullSrc = `${workspace}/${srcDir}`;
+  await $`cp -rf ${fullSrc}/* ${destFullDir}`;
 }
 
 /**
@@ -123,8 +137,9 @@ async function checkout({ headBranch }) {
  */
 async function commit({ commitMessage }) {
   await $`git add .`;
-  const grep = await $`git status`.pipe($`grep -q "Changes to be committed"`);
-  const hasChanges = !!grep.stdout;
+
+  const status = await $s`git status`;
+  const hasChanges = status.stdout.includes("Changes to be committed");
   if (hasChanges) {
     await $`git commit --message ${commitMessage}`;
   }
@@ -171,11 +186,9 @@ async function main() {
 
   await configGit({ email: commiterEmail, userName: commiterName });
 
-  const cloneDir = await clone({ apiToken, owner, repo, baseBranch });
+  const cloneDir = await clone({ apiToken, owner, repo });
 
-  await copy({ cloneDir, srcDir, destDir });
-
-  cd(cloneDir);
+  await copy({ cloneDir, srcDir, destDir, baseBranch });
 
   await checkout({ headBranch });
 

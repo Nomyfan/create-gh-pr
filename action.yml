@@ -19,7 +19,7 @@ inputs:
     description: "Git commit email"
     required: true
   commiter_name:
-    description: "Git commit user name"
+    description: "Git commit user name. Default is 'github-actions[bot]'"
     required: true
   commit_message:
     description: "Git commit message. Default is 'Update $head_branch'"
