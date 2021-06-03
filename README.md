@@ -1,6 +1,6 @@
-# Open GH PR
+# Create GH PR
 
-This action create a new branch to a repo, copy somethings into it and open a PR.
+This action create a new branch to a repo, copy somethings into it and create a PR.
 
 ## Inputs
 
@@ -47,13 +47,13 @@ Base branch
 ## Example usage
 
 ```yml
-- name: Open pull request
-  uses: nomyfan/open-gh-pr@v1.0.0 # use latest version
+- name: Create pull request
+  uses: nomyfan/create-gh-pr@v1.0.0 # use latest version
   with:
     api_token: ${{ secrets.API_TOKEN_GITHUB }}
     src_dir: dist
     dest_dir: dist
-    repo: test-open-gh-pr
+    repo: test-create-gh-pr
     owner: nomyfan
     commiter_email: ${{ secrets.EMAIL }}
     commiter_name: ${{ secrets.USER_NAME }}

@@ -1,5 +1,5 @@
 {
-  "name": "open-gh-pr",
+  "name": "create-gh-pr",
   "version": "1.0.0",
   "type": "module",
   "main": "index.mjs",

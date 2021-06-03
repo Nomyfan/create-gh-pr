@@ -159,7 +159,7 @@ async function push({ headBranch }) {
  *
  * @param param0 {{apiToken: string, headBranch: string, baseBranch: string, owner: string, repo: string}}
  */
-async function openPr({ apiToken, headBranch, baseBranch, owner, repo }) {
+async function createPr({ apiToken, headBranch, baseBranch, owner, repo }) {
   const octokit = gh.getOctokit(apiToken);
   await octokit.rest.pulls.create({
     owner: owner,
@@ -195,7 +195,7 @@ async function main() {
   const hasChanges = await commit({ commitMessage });
   if (hasChanges) {
     await push({ headBranch });
-    await openPr({ apiToken, headBranch, baseBranch, owner, repo });
+    await createPr({ apiToken, headBranch, baseBranch, owner, repo });
   } else {
     println("No changes detected");
   }

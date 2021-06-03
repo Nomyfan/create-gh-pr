@@ -1,5 +1,5 @@
-name: "Open GH PR"
-description: "Create a new branch and open a PR"
+name: "Create GH PR"
+description: "Create a new branch and create a PR"
 inputs:
   api_token:
     description: "GitHub API token"
