@@ -1,0 +1,46 @@
+name: "Open GH PR"
+description: "Create a new branch and open a PR"
+inputs:
+  api_token:
+    description: "GitHub API token"
+    required: true
+  src_dir:
+    description: "Source directory to copy"
+    required: true
+  dest_dir:
+    description: "Destination directory to copy"
+  repo:
+    description: "GitHub repo name"
+    required: true
+  owner:
+    description: "GitHub repo owner"
+    required: true
+  commiter_email:
+    description: "Git commit email"
+    required: true
+  commiter_name:
+    description: "Git commit user name"
+    required: true
+  commit_message:
+    description: "Git commit message. Default is 'Update $head_branch'"
+    required: false
+  head_branch:
+    description: "Head branch. ALERT: cannot be master or main"
+    required: true
+  base_branch:
+    description: "Base branch"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.api_token }}
+    - ${{ inputs.src_dir }}
+    - ${{ inputs.dest_dir }}
+    - ${{ inputs.repo }}
+    - ${{ inputs.owner }}
+    - ${{ inputs.commiter_email }}
+    - ${{ inputs.commiter_name }}
+    - ${{ inputs.commit_message }}
+    - ${{ inputs.head_branch }}
+    - ${{ inputs.base_branch }}
