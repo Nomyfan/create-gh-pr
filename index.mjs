@@ -111,15 +111,15 @@ async function copy({ cloneDir, srcDir, destDir, baseBranch }) {
   const workspace = process.env.GITHUB_WORKSPACE;
   // const workspace = (await $`pwd`).stdout;
 
-  const destFullDir = `${cloneDir}/${destDir}`;
-  await io.mkdirP(destFullDir);
+  const fullDest = `${cloneDir}/${destDir}`;
+  await io.mkdirP(fullDest);
 
   cd(cloneDir);
 
   await $`git checkout ${baseBranch}`;
 
   const fullSrc = `${workspace}/${srcDir}`;
-  await $`cp -rf ${fullSrc} ${destFullDir}`;
+  await $`cp -rf ${fullSrc} ${fullDest}`;
 }
 
 /**
