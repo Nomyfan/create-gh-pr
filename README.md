@@ -26,11 +26,11 @@ GitHub repo owner
 
 ### `commiter_email`
 
-Git commit email
+[Optional] Git commit email. Default is 'noreply@github.com'
 
 ### `commiter_name`
 
-[Optional] Git commit user name. Default is 'github-actions[bot]'
+[Optional] Git commit user name. Default is 'GitHub'
 
 ### `commit_message`
 

@@ -16,11 +16,13 @@ inputs:
     description: "GitHub repo owner"
     required: true
   commiter_email:
-    description: "Git commit email"
-    required: true
+    description: "Git commit email. Default is 'noreply@github.com'"
+    default: "noreply@github.com"
+    required: false
   commiter_name:
-    description: "Git commit user name. Default is 'github-actions[bot]'"
-    required: true
+    description: "Git commit user name. Default is 'GitHub'"
+    default: "GitHub"
+    required: false
   commit_message:
     description: "Git commit message. Default is 'Update $head_branch'"
     required: false

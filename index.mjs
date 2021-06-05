@@ -58,12 +58,9 @@ function precheck() {
     exit("Base branch must be defined");
   }
 
-  const commiterEmail = core.getInput("commiter_email");
-  if (!commiterEmail) {
-    exit("Commiter email must be defined");
-  }
+  const commiterEmail = core.getInput("commiter_email") || "noreply@github.com";
 
-  const commiterName = core.getInput("commiter_name") || "github-actions[bot]";
+  const commiterName = core.getInput("commiter_name") || "GitHub";
 
   const commitMessage =
     core.getInput("commit_message") || `Update ${headBranch}`;
