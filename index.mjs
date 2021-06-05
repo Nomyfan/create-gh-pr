@@ -119,7 +119,7 @@ async function copy({ cloneDir, srcDir, destDir, baseBranch }) {
   await $`git checkout ${baseBranch}`;
 
   const fullSrc = `${workspace}/${srcDir}`;
-  await $`cp -rf ${fullSrc}/* ${destFullDir}`;
+  await $`cp -rf ${fullSrc} ${destFullDir}`;
 }
 
 /**
